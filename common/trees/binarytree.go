@@ -1,20 +1,21 @@
 package trees
 
+import "github.com/hatricker/gods/common"
+
+const (
+	minInt32 = common.MinInt32
+)
+
 //TreeNode defines a binary tree node
 type TreeNode struct {
 	Val         int32
 	Left, Right *TreeNode
 }
 
-const (
-	//MinInt32 is the minimum value of type int32
-	MinInt32 = -1 << 31
-)
-
 //Unmarshal builds a binary tree from a series of integers
 func Unmarshal(values []int32) *TreeNode {
 	length := len(values)
-	if length == 0 || values[0] == MinInt32 {
+	if length == 0 || values[0] == minInt32 {
 		return nil
 	}
 	queue := make([]*TreeNode, 0, length)
@@ -22,7 +23,7 @@ func Unmarshal(values []int32) *TreeNode {
 	queue = append(queue, root)
 	for index := 1; index < length; index++ {
 		node := queue[0]
-		if values[index] != MinInt32 {
+		if values[index] != minInt32 {
 			node.Left = &TreeNode{Val: values[index]}
 			queue = append(queue, node.Left)
 		}
@@ -31,7 +32,7 @@ func Unmarshal(values []int32) *TreeNode {
 			break
 		}
 
-		if values[index] != MinInt32 {
+		if values[index] != minInt32 {
 			node.Right = &TreeNode{Val: values[index]}
 			queue = append(queue, node.Right)
 		}
@@ -45,7 +46,7 @@ func appendNodeVal(a []int32, nodeVal int32, numNils int) []int32 {
 	if numNils > 0 {
 		tail := make([]int32, numNils)
 		for i := range tail {
-			tail[i] = MinInt32
+			tail[i] = minInt32
 		}
 		a = append(a, tail...)
 	}
@@ -55,7 +56,7 @@ func appendNodeVal(a []int32, nodeVal int32, numNils int) []int32 {
 
 //Marshal serializes binary tree in BFS order
 func Marshal(root *TreeNode) []int32 {
-	if root == nil || root.Val == MinInt32 {
+	if root == nil || root.Val == minInt32 {
 		return nil
 	}
 	queue := make([]*TreeNode, 0, 64)

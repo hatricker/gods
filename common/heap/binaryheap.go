@@ -1,5 +1,11 @@
 package heap
 
+import "github.com/hatricker/gods/common"
+
+const (
+	minInt32 = common.MinInt32
+)
+
 //Heap defines binary heap datastructure
 type Heap struct {
 	MaxHeap bool
@@ -93,11 +99,13 @@ func (h *Heap) Fixdown() {
 }
 
 //Remove removes the top element on the heap and reshapes the heap
-func (h *Heap) Remove() {
+func (h *Heap) Remove() int32 {
 	length := len(h.Elems)
 	if length == 0 {
-		return
+		return minInt32
 	}
+	topElem := h.Elems[0]
 	swapElems(h.Elems, 0, length-1)
 	h.Fixdown()
+	return topElem
 }

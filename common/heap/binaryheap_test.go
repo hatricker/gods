@@ -96,11 +96,6 @@ func TestHeapRemove(t *testing.T) {
 			[]int32{3, 5, 8, 7, 6, 10, 15, 12},
 		},
 		{
-			[]int32{},
-			[]int32{},
-			[]int32{},
-		},
-		{
 			[]int32{1},
 			[]int32{},
 			[]int32{},
@@ -114,11 +109,16 @@ func TestHeapRemove(t *testing.T) {
 
 	for _, tt := range tests {
 		maxHeap := Init(tt.currElems, true)
-		maxHeap.Remove()
+		expRemoved := maxHeap.Elems[0]
+		assert.Equal(expRemoved, maxHeap.Remove())
 		assert.Equal(tt.maxHeapElems, maxHeap.Elems)
 
 		minHeap := Init(tt.currElems, false)
-		minHeap.Remove()
+		expRemoved = minHeap.Elems[0]
+		assert.Equal(expRemoved, minHeap.Remove())
 		assert.Equal(tt.minHeapElems, minHeap.Elems)
 	}
+
+	zeroHeap := Init([]int32{}, true)
+	assert.Equal(minInt32, zeroHeap.Remove())
 }
